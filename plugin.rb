@@ -6,7 +6,7 @@
 module Onebox
   module Engine
     class HummingbirdOnebox
-      include Engine
+      include Onebox::Engine
 
       # a|m are short links for anime|manga
       matches_regexp /https?:\/\/(?:www\.)?hummingbird\.me\/(?<type>anime|manga|a|m)\/(?<slug>.+)/
