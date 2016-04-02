@@ -5,7 +5,7 @@
 
 module Onebox::Engine::HummingbirdOnebox
   include Onebox::Engine
-  include Onebox::JSON
+  include Onebox::Engine::JSON
 
   # a|m are short links for anime|manga
   matches_regexp /https?:\/\/(?:www\.)?hummingbird\.me\/(?<type>anime|manga|a|m)\/(?<slug>.+)/
