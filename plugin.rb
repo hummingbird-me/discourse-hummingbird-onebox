@@ -31,7 +31,7 @@ module Onebox::Engine::HummingbirdOnebox
         <div class="onebox-body media-embed">
           <img src="#{media['poster_image_thumb']" class="thumbnail">
           <h3><a href="#{@url}" target="_blank">#{media['romaji_title']}</a></h3>
-          <h4>#{media['genres'].sort * ", "}</h4>
+          <h4>#{media['genres'].sort * ', '}</h4>
           #{media['synopsis']}
         </div>
         <div class="clearfix"></div>
