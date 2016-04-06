@@ -9,7 +9,7 @@ module Onebox
   module Engine
     class HummingbirdOnebox
      include Engine
-     include JSON
+      include JSON
 
   # a|m are short links for anime|manga
   matches_regexp /https?:\/\/(?:www\.)?hummingbird\.me\/(?<type>anime|manga|a|m)\/(?<slug>.+)/
@@ -69,8 +69,6 @@ module Onebox
   def uri
     @_uri ||= URI(@url)
   end
-end
-end
 end
 end
 end
