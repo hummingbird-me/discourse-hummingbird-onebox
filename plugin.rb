@@ -3,9 +3,11 @@
 # version: 1.0
 # authors: Hummingbird Media, Inc.
 
-module Onebox::Engine::HummingbirdOnebox
-  include Onebox::Engine
-  include Onebox::Engine::JSON
+
+module Onebox
+  module Engine
+    class HummingbirdOnebox
+     include Engine
 
   # a|m are short links for anime|manga
   matches_regexp /https?:\/\/(?:www\.)?hummingbird\.me\/(?<type>anime|manga|a|m)\/(?<slug>.+)/
