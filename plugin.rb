@@ -3,6 +3,7 @@
 # version: 1.0
 # authors: Hummingbird Media, Inc.
 
+Onebox = Onebox
 
 module Onebox
   module Engine
