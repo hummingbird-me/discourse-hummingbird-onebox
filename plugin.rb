@@ -25,14 +25,9 @@ module Onebox
 
     <<-HTML
       <div class="onebox">
-        <div class="source">
-          <div class="info">
-            <a href="#{@url}" class="track-link" target="_blank">
+          <a href="#{@url}" class="track-link" target="_blank">
               #{type} (#{type["show_type"]})
             </a>
-          </div>
-        </div>
-        <div class="onebox-body media-embed">
           <img src="#{media['poster_image_thumb']}" class="thumbnail">
           <h3><a href="#{@url}" target="_blank">#{media['title']}</a></h3>
           <h4>#{media['genres'].sort * ', '}</h4>
@@ -46,8 +41,8 @@ module Onebox
   private
 
   def type
-    return 'anime' if @@matcher.match(@url)['type'] == 'anime'
-    return 'manga' if @@matcher.match(@url)['type'] == 'manga'
+    return 'anime' if @@matcher.match(@url)['type'] == 'a'
+    return 'manga' if @@matcher.match(@url)['type'] == 'm'
     @@matcher.match(@url)['type']
   end
 
