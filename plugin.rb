@@ -69,4 +69,5 @@ module Onebox
   def uri
     @_uri ||= URI(@url)
   end
-
+end
+end
