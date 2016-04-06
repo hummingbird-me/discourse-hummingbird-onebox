@@ -28,7 +28,7 @@ module Onebox
         <div class="source">
           <div class="info">
             <a href="{{url}}" class="track-link" target="_blank">
-              #{type} (#{media_type})
+              #{type} (#{type["show_type"]})
             </a>
           </div>
         </div>
