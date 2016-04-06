@@ -22,20 +22,23 @@ module Onebox
 
   def to_html
     return "<a href=\"#{@url}\">#{@url}</a>" if media.nil?
-
-    <<-HTML
-      <div class="onebox">
-          <a href="#{@url}" class="track-link" target="_blank">
-              #{type} (#{type["show_type"]})
-            </a>
-          <img src="#{media['poster_image_thumb']}" class="thumbnail">
-          <h3><a href="#{@url}" target="_blank">#{media['title']}</a></h3>
-          <h4>#{media['genres'].sort * ', '}</h4>
-          #{media['synopsis']}
-        </div>
-        <div class="clearfix"></div>
-      </div>
-    HTML
+    
+        <<-HTML
+          <div class="onebox">
+            <div class="source">
+              <a href="#{@url}" class="track-link" target="_blank">
+                  #{type} (#{type["show_type"]})
+                </a>
+            </div>
+            <div class="onebox-body">
+              <img src="#{media['poster_image_thumb']}" class="thumbnail">
+              <h3><a href="#{@url}" target="_blank">#{media['title']}</a></h3>
+              <h4>#{media['genres'].sort * ', '}</h4>
+              #{media['synopsis']}
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        HTML
   end
 
   private
