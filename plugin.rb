@@ -34,12 +34,12 @@ module Onebox
         </div>
         <div class="onebox-body media-embed">
           <img src="#{media['poster_image_thumb']}" class="thumbnail">
-          <h3><a href="#{@url}" target="_blank">#{media['romaji_title']}</a></h3>
+          <h3><a href="#{@url}" target="_blank">#{media['title']}</a></h3>
           <h4>#{media['genres'].sort * ', '}</h4>
           #{media['synopsis']}
         </div>
         <div class="clearfix"></div>
-      </div>"
+      </div>
     HTML
   end
 
@@ -61,8 +61,8 @@ module Onebox
 
   def media_type
     case media['type']
-      when 'anime'; media['anime_type']
-      when 'manga'; media['manga_type']
+      when 'anime'; media['anime']
+      when 'manga'; media['manga']
     end
   end
 
