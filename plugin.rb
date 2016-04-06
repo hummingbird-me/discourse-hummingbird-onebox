@@ -8,37 +8,67 @@ Onebox = Onebox
 module Onebox
   module Engine
     class HummingbirdOnebox
-      include Engine
+     include Engine
       include JSON
 
-      matches_regexp /https?:\/\/hummingbird\.me\/anime\/.+/
+  # a|m are short links for anime|manga
+  matches_regexp /https?:\/\/(?:www\.)?hummingbird\.me\/(?<type>anime|manga|a|m)\/(?<slug>.+)/
+  always_https
+  
+  def url
+    # TODO: switch to APIv16
+    "https://hummingbird.me/#{type}/#{slug}.json"
+  end
 
-      def url
-        slug = @url.match(/https?:\/\/hummingbird\.me\/anime\/(.+)/)[1]
-        "https://hummingbird.me/api/v1/anime/#{slug}"
-      end
+  def to_html
+    return "<a href=\"#{@url}\">#{@url}</a>" if media.nil?
 
-      def to_html
-        anime = raw
-        "
-        <div class='onebox-result'>
-          <div class='source'>
-            <div class='info'>
-              <a href='#{@url}' class='track-link' target='_blank'>
-                Anime (#{anime["show_type"]})
-              </a>
-            </div>
+    <<-HTML
+      <div class="onebox">
+        <div class="source">
+          <div class="info">
+            <a href="#{@url}" class="track-link" target="_blank">
+              #{type} (#{media_type})
+            </a>
           </div>
-          <div class='onebox-result-body'>
-            <img src='#{anime["cover_image"]}' class='thumbnail'>
-            <h3><a href='#{@url}' target='_blank'>#{anime["title"]}</a></h3>
-            <h4>#{anime["genres"].map {|x| x["name"] } * ", "}</h4>
-            #{anime["synopsis"]}
-          </div>
-          <div class='clearfix'></div>
         </div>
-        "
-      end
+        <div class="onebox-body media-embed">
+          <img src="#{media['poster_image_thumb']}" class="thumbnail">
+          <h3><a href="#{@url}" target="_blank">#{media['romaji_title']}</a></h3>
+          <h4>#{media['genres'].sort * ', '}</h4>
+          #{media['synopsis']}
+        </div>
+        <div class="clearfix"></div>
+      </div>"
+    HTML
+  end
+
+  private
+
+  def type
+    return 'anime' if @@matcher.match(@url)['type'] == 'a'
+    return 'manga' if @@matcher.match(@url)['type'] == 'm'
+    @@matcher.match(@url)['type']
+  end
+
+  def slug
+    @@matcher.match(@url)['slug']
+  end
+
+  def media
+    raw[type]
+  end
+
+  def media_type
+    case media['type']
+      when 'anime'; media['anime_type']
+      when 'manga'; media['manga_type']
     end
   end
+
+  def uri
+    @_uri ||= URI(@url)
+  end
+end
+end
 end
