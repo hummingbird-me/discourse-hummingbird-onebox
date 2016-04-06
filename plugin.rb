@@ -61,8 +61,8 @@ module Onebox
 
   def media_type
     case media['type']
-      when 'anime'; media['anime']
-      when 'manga'; media['manga']
+      when 'anime'; media['show_type']
+      when 'manga'; media['manga_type']
     end
   end
 
