@@ -1,68 +1,104 @@
 # name: hummingbird-onebox
-# about: Embed hummingbird.me media links in discourse posts
+# about: Onebox plugin for hummingbird
 # version: 1.0
-# authors: Hummingbird Media, Inc.
+# authors: Hummingbird Media
 
-module Onebox::Engine::HummingbirdOnebox
+register_asset "stylesheets/hummingbird_onebox.scss"
+
+class Onebox::Engine::HummingbirdOnebox
   include Onebox::Engine
   include Onebox::Engine::JSON
 
-  # a|m are short links for anime|manga
-  matches_regexp /https?:\/\/(?:www\.)?hummingbird\.me\/(?<type>anime|manga|a|m)\/(?<slug>.+)/
+  TYPES = {
+    'anime' => 'anime',
+    'a'     => 'anime',
+    'manga' => 'manga',
+    'm'     => 'manga'
+  }
+  HOST_REGEX = %r{https?://(?:www\.)?hummingbird\.me}
+  TYPE_REGEX = %r{(?<type>#{TYPES.keys.join('|')})}
+  SLUG_REGEX = %r{(?<slug>[A-Za-z0-9\-]+)}
+  MATCH_REGEX = %r{^#{HOST_REGEX}/#{TYPE_REGEX}/#{SLUG_REGEX}$}
+
+  matches_regexp MATCH_REGEX
   always_https
-  
+
   def url
     # TODO: switch to APIv16
-    "https://hummingbird.me/#{type}/#{slug}.json"
+    "https://hummingbird.me/full_#{type}/#{slug}.json"
   end
 
   def to_html
-    return "<a href=\"#{@url}\">#{@url}</a>" if media.nil?
+    return "<a href=\"#{link}\">#{link}</a>" if media.nil?
 
     <<-HTML
-      <div class="onebox">
-        <div class="source">
-          <div class="info">
-            <a href="#{@url}" class="track-link" target="_blank">
-              #{type} (#{media_type})
+      <aside class="hb-onebox hb-onebox-#{type}" data-media-type="#{type}"
+                                                 data-media-slug="#{slug}">
+        <div class="hb-onebox-poster">
+          <img src="#{media['poster_image']}">
+        </div>
+        <div class="hb-onebox-info">
+          <h1 class="hb-onebox-header">
+            <a href="#{link}" target="_blank" class="track-link">
+              #{media['romaji_title']}
+            </a>
+          </h1>
+          <div class="hb-onebox-rating" title="#{media['bayesian_rating']}">
+            #{stars_html}
+          </div>
+          <div class="hb-onebox-synopsis">
+            #{media['synopsis']}
+            <a class="hb-onebox-readmore">
+              read
+              <span class="hb-onebox-readmore-more">more</span>
+              <span class="hb-onebox-readmore-less">less</span>
             </a>
           </div>
+          <div class="hb-onebox-genres">
+            #{genres_html}
+          </div>
         </div>
-        <div class="onebox-body media-embed">
-          <img src="#{media['poster_image_thumb']}" class="thumbnail">
-          <h3><a href="#{@url}" target="_blank">#{media['romaji_title']}</a></h3>
-          <h4>#{media['genres'].sort * ', '}</h4>
-          #{media['synopsis']}
-        </div>
-        <div class="clearfix"></div>
-      </div>
+      </aside>
     HTML
   end
 
   private
 
   def type
-    return 'anime' if @@matcher.match(@url)['type'] == 'a'
-    return 'manga' if @@matcher.match(@url)['type'] == 'm'
-    @@matcher.match(@url)['type']
+    TYPES[MATCH_REGEX.match(@url)['type']]
   end
 
   def slug
-    @@matcher.match(@url)['slug']
+    MATCH_REGEX.match(@url)['slug']
   end
 
   def media
-    raw[type]
+    raw["full_#{type}"]
   end
 
   def media_type
-    case media['type']
+    case type
       when 'anime'; media['show_type']
       when 'manga'; media['manga_type']
     end
   end
 
-  def uri
-    @_uri ||= URI(@url)
+  def title
+    media['romaji_title']
+  end
+
+  def stars_html
+    rating = (media['bayesian_rating'] / 0.5).round * 0.5
+    whole_stars = '<i class="fa fa-star"></i>' * rating.floor
+    half_stars = '<i class="fa fa-star-half-o"></i>' * (rating % 1 / 0.5)
+    empty_stars = '<i class="fa fa-star-o"></i>' * (5 - rating).floor
+
+    "#{whole_stars}#{half_stars}#{empty_stars}"
+  end
+
+  def genres_html
+    media['genres'].sort.map do |g|
+      "<div class=\"hb-onebox-genre\">#{g}</div>"
+    end.join
   end
 end

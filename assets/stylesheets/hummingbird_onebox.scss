@@ -1,0 +1,84 @@
+$onebox-background: #4B5361;
+
+.hb-onebox {
+  background: $onebox-background;
+  display: flex;
+  min-height: 246px;
+  max-width: 600px;
+  border-radius: 4px;
+}
+.hb-onebox-poster {
+  width: 170px;
+  flex: none;
+  overflow: hidden;
+  border-radius: 4px 0 0 4px;
+
+  &> img {
+    width: 100%;
+    height: auto;
+  }
+}
+.hb-onebox-info {
+  padding: 21px 23px;
+}
+h1.hb-onebox-header {
+  color: #ACB4BF;
+  font-size: 15px;
+  margin: 0;
+
+  &> a {
+    color: inherit;
+  }
+}
+.hb-onebox-rating {
+  color: #F49D00;
+  margin: 8px 0 10px 0;
+}
+.hb-onebox-synopsis {
+  color: #C0CAD7;
+  font-size: 12px;
+  position: relative;
+  max-height: 19px * 4;
+  overflow: hidden;
+
+  .hb-onebox-readmore {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(to left, $onebox-background 10%,
+                                         $onebox-background 90%,
+                                         rgba($onebox-background, 0));
+    padding-left: 20px;
+    color: #F87765;
+  }
+  .hb-onebox-readmore-more {
+    display: inline;
+  }
+  .hb-onebox-readmore-less {
+    display: none;
+  }
+}
+.hb-onebox-synopsis-open {
+  max-height: none;
+  padding-bottom: 19px;
+
+  .hb-onebox-readmore-more {
+    display: none;
+  }
+  .hb-onebox-readmore-less {
+    display: inline;
+  }
+}
+.hb-onebox-genres {
+  margin: 5px 0 10px;
+}
+.hb-onebox-genre {
+  display: inline-block;
+  padding: 1px 7px;
+  text-transform: uppercase;
+  background-color: #5E6674;
+  font-size: 10px;
+  color: white;
+  margin-right: 4px;
+  border-radius: 3px;
+}
