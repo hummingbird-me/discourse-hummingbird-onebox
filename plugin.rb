@@ -87,7 +87,13 @@ class Onebox::Engine::HummingbirdOnebox
     media['romaji_title']
   end
 
+  def average_rating
+    media['bayesian_rating']
+  end
+
   def stars_html
+    return '' if average_rating.blank?
+
     rating = (media['bayesian_rating'] / 0.5).round * 0.5
     whole_stars = '<i class="fa fa-star"></i>' * rating.floor
     half_stars = '<i class="fa fa-star-half-o"></i>' * (rating % 1 / 0.5)
