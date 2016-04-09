@@ -19,7 +19,7 @@ $onebox-background: #4B5361;
   }
 }
 .hb-onebox-info {
-  padding: 21px 23px;
+  padding: 22px 26px;
 }
 h1.hb-onebox-header {
   color: #ACB4BF;
@@ -32,13 +32,13 @@ h1.hb-onebox-header {
 }
 .hb-onebox-rating {
   color: #F49D00;
-  margin: 8px 0 10px 0;
+  margin: 11px 0 16px 0;
 }
 .hb-onebox-synopsis {
   color: #C0CAD7;
   font-size: 12px;
   position: relative;
-  max-height: 19px * 4;
+  max-height: 19px * 5;
   overflow: hidden;
 
   .hb-onebox-readmore {
@@ -70,7 +70,7 @@ h1.hb-onebox-header {
   }
 }
 .hb-onebox-genres {
-  margin: 5px 0 10px;
+  margin: 8px 0 16px;
 }
 .hb-onebox-genre {
   display: inline-block;
