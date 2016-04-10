@@ -37,7 +37,7 @@ class Onebox::Engine::HummingbirdOnebox
     return "<a href=\"#{link}\">#{link}</a>" if media.nil?
 
     <<-HTML
-      <aside class="onebox hb-onebox hb-onebox-#{type}"
+      <aside class="onebox onebox-result hb-onebox hb-onebox-#{type}"
              data-media-type="#{type}" data-media-slug="#{slug}">
         #{poster_html}
         <div class="hb-onebox-info">
@@ -56,6 +56,9 @@ class Onebox::Engine::HummingbirdOnebox
           <div class="hb-onebox-genres">
             #{genres_html}
           </div>
+          <a class="hb-onebox-library-entry" href="https://hummingbird.me/sign-up" target="_blank">
+            <span>Track this #{type} with Hummingbird</span>
+          </a>
         </div>
       </aside>
     HTML
