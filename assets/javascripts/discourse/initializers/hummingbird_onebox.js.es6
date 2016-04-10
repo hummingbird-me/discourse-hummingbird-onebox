@@ -15,7 +15,7 @@ export default {
     withPluginApi('0.2', api => {
       api.decorateCooked((post) => {
         $('.hb-onebox', post).each((i, onebox) => {
-          initReadMoreToggle($(onebox);
+          initReadMoreToggle($(onebox));
         });
       });
     });
